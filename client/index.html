@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+    <!-- Primary Meta Tags -->
+    <title>Kunal Kumar | AI Developer & Data Scientist Portfolio | ML, Python, NLP</title>
+    <meta name="title" content="Kunal Kumar | AI Developer & Data Scientist | Machine Learning & Data Science Portfolio" />
+    <meta name="description" content="Kunal Kumar's AI Developer portfolio showcasing Machine Learning projects, Python expertise, Web Scraping, NLP, and Cloud Computing. Explore AI-powered automation, predictive models, and data science solutions." />
+    <meta name="keywords" content="AI Developer, Data Scientist, Machine Learning, Python, NLP, Web Scraping, Azure Cloud, Data Analysis, LangChain, OpenAI" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kunalkumar.dev/" />
+    <meta property="og:title" content="Kunal Kumar | AI Developer & Data Scientist" />
+    <meta property="og:description" content="Portfolio of Kunal Kumar, an AI Developer and Data Scientist specializing in Machine Learning, NLP, and Data Analytics." />
+    <meta property="og:image" content="/profile.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://kunalkumar.dev/" />
+    <meta property="twitter:title" content="Kunal Kumar | AI Developer & Data Scientist Portfolio" />
+    <meta property="twitter:description" content="AI Developer & Data Scientist - Explore my Machine Learning projects, Python expertise, Web Scraping, NLP solutions, and Cloud Computing work." />
+    <meta property="twitter:image" content="/profile.png" />
+    <meta property="twitter:site" content="@replit" />
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Kunal Kumar",
+      "url": "https://kunalkumar.vercel.app",
+      "image": "https://kunalkumar.vercel.app/profile.png",
+      "description": "AI Developer & Data Scientist specializing in Machine Learning, NLP, and Cloud Computing",
+      "jobTitle": "AI Developer & Data Scientist",
+      "knowsAbout": ["Artificial Intelligence", "Machine Learning", "Data Science", "Python", "Azure Cloud", "Web Scraping", "NLP", "Computer Vision"],
+      "sameAs": [
+        "https://www.linkedin.com/in/kunal-pandey520",
+        "https://github.com/kunal9211pandey"
+      ],
+      "email": "kunalkumar97503@gmail.com"
+    }
+    </script>
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Devicon for tech logos -->
+    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // Remove Replit banner before app loads
+      (function() {
+        const removeReplit = () => {
+          document.querySelectorAll('[data-theme-banner], [class*="replit"], [class*="dev-banner"], .replit-ui-banner, #replit-banner').forEach(el => {
+            try { el.remove(); } catch(e) {}
+          });
+        };
+        removeReplit();
+        document.addEventListener('DOMContentLoaded', removeReplit);
+        setTimeout(removeReplit, 100);
+      })();
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
