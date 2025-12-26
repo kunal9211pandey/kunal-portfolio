@@ -14,7 +14,6 @@ export function Footer() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-4">
-            <SocialLink href={personalInfo.social.medium} icon={<Globe className="w-5 h-5" />} label="medium" />
             <SocialLink href={personalInfo.social.github} icon={<Github className="w-5 h-5" />} label="GitHub" />
             <SocialLink href={personalInfo.social.linkedin} icon={<Linkedin className="w-5 h-5" />} label="LinkedIn" />
             <SocialLink href={personalInfo.social.instagram} icon={<Instagram className="w-5 h-5" />} label="Instagram" />

@@ -25,8 +25,7 @@ export const personalInfo = {
     kaggle: "https://www.kaggle.com/kunal320",
     geeksforgeeks: "https://www.geeksforgeeks.org/user/kunalkumar97503/",
     instagram: "https://www.instagram.com/kunal_pandey_9211/",
-    whatsapp: "https://wa.me/917370944861",
-    medium: "https://medium.com/@kunalkumar97503"
+    whatsapp: "https://wa.me/917370944861"
   },
   resumeUrl: "/Kunal_Kumar.pdf"
 };
@@ -49,6 +48,7 @@ export const skills = [
       { name: "NLP", icon: "devicon-python-plain" }, // Generic python for NLP if specific not found
       { name: "Deep Learning", icon: "devicon-pytorch-plain colored" }, // Assuming PyTorch/TensorFlow
       { name: "LangChain", icon: "devicon-python-plain" }, // No devicon yet
+      { name: "RAG", icon: "devicon-python-plain" },
       { name: "Computer Vision", icon: "devicon-opencv-plain colored" },
       { name: "Web Scraping", icon: "devicon-python-plain" },
       { name: "Data Visualization", icon: "devicon-d3js-plain colored" } // Generic vis
