@@ -34,7 +34,7 @@ export function Logo({ className }: { className?: string }) {
       
       <div className="flex flex-col leading-none">
         <span className="font-display font-bold text-lg tracking-tight group-hover:text-primary transition-colors">
-          Kunal<span className="text-primary">Pandey</span>
+          Kunal<span className="text-primary"> Pandey</span>
         </span>
         <span className="text-[0.65rem] text-muted-foreground font-medium tracking-widest uppercase">
           Data Scientist
