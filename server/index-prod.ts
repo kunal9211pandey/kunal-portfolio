@@ -1,7 +1,8 @@
-import fs from "node:fs";
-import path from "node:path";
+// Production server entry point for Vercel deployment
+// This file is bundled by esbuild and used for serverless function deployment
+
 import express from "express";
-import { createServer, type Server } from "http";
+import { createServer } from "http";
 import type { Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 
@@ -22,19 +23,22 @@ function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
+// Create Express app and HTTP server
 const app = express();
 const httpServer = createServer(app);
 
+// Middleware setup
 app.use(
   express.json({
     verify: (req, _res, buf) => {
-      req.rawBody = buf;
+      (req as any).rawBody = buf;
     },
   }),
 );
 
 app.use(express.urlencoded({ extended: false }));
 
+// Request logging middleware
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -65,54 +69,71 @@ app.use((req, res, next) => {
   next();
 });
 
-async function serveStatic(app: express.Express) {
-  const distPath = path.resolve(import.meta.dirname, "../dist/public");
-  if (!fs.existsSync(distPath)) {
-    throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`,
-    );
-  }
-  app.use(express.static(distPath));
-  app.use("*", (_req, res) => {
-    res.sendFile(path.resolve(distPath, "index.html"));
-  });
-}
+// Global state for routes initialization
+let routesInitialized = false;
+let routesInitPromise: Promise<void> | null = null;
 
-async function start() {
-  // Register API routes
-  const registerPromise = registerRoutes(httpServer, app);
-  await registerPromise;
+// Initialize routes (idempotent)
+async function initializeRoutes() {
+  if (routesInitialized) return;
+  if (routesInitPromise) return routesInitPromise;
 
-  // Setup error handling
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-
-    res.status(status).json({ message });
-    throw err;
+  routesInitPromise = registerRoutes(httpServer, app).then(() => {
+    routesInitialized = true;
   });
 
-  // Serve static files in production
-  await serveStatic(app);
-
-  // Start server
-  const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`serving on port ${port}`);
-    },
-  );
+  return routesInitPromise;
 }
 
-// Execute
-start().catch((err) => {
-  console.error("Failed to start server:", err);
-  process.exit(1);
+// Error handling middleware
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  const status = err.status || err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+
+  res.status(status).json({ message });
 });
 
-export default app;
+// Serverless function handler for Vercel
+export async function handler(req: Request, res: Response) {
+  try {
+    // Ensure routes are initialized before handling any request
+    await initializeRoutes();
+
+    // Forward the request to Express app
+    app(req, res);
+  } catch (error) {
+    console.error("Handler error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
+// For local development: create a server instance
+async function startLocalServer() {
+  try {
+    await initializeRoutes();
+
+    const port = parseInt(process.env.PORT || "5000", 10);
+    httpServer.listen(
+      {
+        port,
+        host: "0.0.0.0",
+        reusePort: true,
+      },
+      () => {
+        log(`serving on port ${port}`);
+      },
+    );
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+}
+
+// Only start local server in development (when running directly, not as a serverless function)
+if (process.env.NODE_ENV === "production" && !process.env.VERCEL) {
+  startLocalServer();
+} else if (process.env.NODE_ENV !== "production") {
+  startLocalServer();
+}
+
+export default handler;
